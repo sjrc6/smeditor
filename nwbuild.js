@@ -7,6 +7,8 @@ const baseOptions = {
   srcDir: "./nw",
   mode: "build",
   version: nwjsVersion,
+  manifestUrl: process.env.NWJS_MANIFEST_URL ?? "https://nwjs.io/versions.json",
+  downloadUrl: process.env.NWJS_DOWNLOAD_URL ?? "https://dl.nwjs.io",
   glob: false,
   logLevel: "debug",
   arch: "x64",

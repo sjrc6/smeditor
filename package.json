@@ -32,7 +32,7 @@
     "husky": "^8.0.3",
     "lint-staged": "^15.5.2",
     "nw": "^0.90.0-sdk",
-    "nw-builder": "^4.8.1",
+    "nw-builder": "^4.17.5",
     "prettier": "^3.0.1",
     "prettier-plugin-glsl": "^0.1.2",
     "typescript": "^5.8.3",
