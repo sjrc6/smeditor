@@ -2,6 +2,11 @@ name: Build Desktop App
 
 on:
   workflow_dispatch:
+    inputs:
+      nwjs_version:
+        description: "NW.js runtime version"
+        required: true
+        default: "0.90.0"
 
 jobs:
   build-desktop:
@@ -23,12 +28,26 @@ jobs:
         run: npm ci
 
       - name: Build desktop app
-        run: npm run app:build
+        env:
+          NWJS_VERSION: ${{ github.event.inputs.nwjs_version }}
+        run: |
+          for attempt in 1 2 3; do
+            echo "Desktop build attempt $attempt/3"
+            if npm run app:build; then
+              exit 0
+            fi
+            if [ "$attempt" -lt 3 ]; then
+              echo "Build failed, retrying in 15 seconds..."
+              sleep 15
+            fi
+          done
+          echo "Desktop build failed after 3 attempts."
+          exit 1
 
       - name: Upload desktop build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: desktop-build-${{ github.run_number }}
-          path: build/
+          name: desktop-build-win-${{ github.run_number }}
+          path: build/win/
           if-no-files-found: error
           retention-days: 14
